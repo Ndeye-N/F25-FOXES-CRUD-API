@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 @Controller
@@ -40,6 +41,20 @@ public class FoxController {
         model.addAttribute("fox", fox);
         return "fox-details";  // will look for templates/fox-details.ftlh
     }
+    @GetMapping("/category/{species}")
+public String foxesBySpecies(@PathVariable String species, Model model) {
+    List<Fox> foxes = service.bySpecies(species);
+    model.addAttribute("foxList", foxes);
+    model.addAttribute("filter", "Species: " + species);
+    return "fox-list";
+}
 
-    // (The POST/PUT/DELETE mappings will be updated in later steps)
+@GetMapping("/search")
+public String searchFoxesByName(@RequestParam("name") String name, Model model) {
+    List<Fox> foxes = service.searchByName(name);
+    model.addAttribute("foxList", foxes);
+    model.addAttribute("filter", "Name contains: " + name);
+    return "fox-list";
+}
+
 }
