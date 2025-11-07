@@ -7,6 +7,26 @@
   <body>
     <h1>All Foxes</h1>
 
+    <!-- Extra Credit: Search by name -->
+    <form action="/api/foxes/search" method="get">
+      <input type="text" name="name" placeholder="Search by name">
+      <button type="submit">Search</button>
+    </form>
+
+    <!-- Extra Credit: Filter by species -->
+    <p>
+      Filter by species:
+      <a href="/api/foxes/category/arctic">Arctic</a> |
+      <a href="/api/foxes/category/red">Red</a> |
+      <a href="/api/foxes/category/fennec">Fennec</a> |
+      <a href="/api/foxes">Clear filter</a>
+    </p>
+
+    <!-- Show which filter is active, if any -->
+    <#if filter??>
+      <p><em>${filter}</em></p>
+    </#if>
+
     <#if foxList?? && (foxList?size > 0)>
       <ul>
         <#list foxList as fox>
