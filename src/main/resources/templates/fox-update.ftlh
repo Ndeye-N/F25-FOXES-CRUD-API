@@ -1,21 +1,53 @@
 <!DOCTYPE html>
 <html>
-<head><meta charset="UTF-8"><title>Update Fox</title></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Update Fox: ${fox.name}</title>
+</head>
 <body>
-  <h1>Update Fox</h1>
+<h1>Update Fox: ${fox.name}</h1>
 
-  <form method="post" action="/api/foxes/update">
-    <label>ID (read-only):
-      <input name="id" value="${fox.id!fox.animalId!fox.foxId}" readonly>
-    </label><br>
-    <label>Name: <input name="name" value="${fox.name}" required></label><br>
-    <label>Species: <input name="species" value="${fox.species!""}"></label><br>
-    <label>Age: <input name="age" type="number" min="0" value="${fox.age!""}"></label><br>
-    <label>Description: <input name="description" value="${fox.description!""}"></label><br>
-    <label>Active Date: <input name="activeDate" type="date" value="${fox.activeDate!""}"></label><br>
-    <button type="submit">Save</button>
-  </form>
+<form action="/api/foxes/update" method="post">
+    <!-- ID: keep, but not editable -->
+    <input type="hidden" name="animalId" value="${fox.animalId}" />
 
-  <p><a href="/api/foxes/${fox.id!fox.animalId!fox.foxId}">Cancel</a></p>
+    <p>
+        <label>Name:
+            <input type="text" name="name" value="${fox.name}" required />
+        </label>
+    </p>
+
+    <p>
+        <label>Species:
+            <input type="text" name="species" value="${fox.species}" required />
+        </label>
+    </p>
+
+    <p>
+        <label>Age:
+            <input type="number" step="0.1" name="age" value="${fox.age}" required />
+        </label>
+    </p>
+
+    <p>
+        <label>Description:<br>
+            <textarea name="description" rows="4" cols="40">${fox.description?if_exists}</textarea>
+        </label>
+    </p>
+
+    <p>
+        <label>Active Date:
+            <!-- IMPORTANT: no ?string("yyyy-MM-dd") here -->
+            <input type="date" name="activeDate"
+                   value="${fox.activeDate?if_exists}" />
+        </label>
+    </p>
+
+    <p>
+        <button type="submit">Save</button>
+        <a href="/api/foxes">Back to list</a>
+    </p>
+</form>
+
 </body>
 </html>
