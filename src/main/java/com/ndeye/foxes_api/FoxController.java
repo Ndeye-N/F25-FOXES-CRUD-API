@@ -96,4 +96,14 @@ public class FoxController {
         service.update(fox.getAnimalId(), fox);
         return "redirect:/api/foxes/" + fox.getAnimalId();
     }
+
+    @GetMapping("/delete/{id}")
+    public String deleteFox(@PathVariable Long id) {
+        boolean deleted = service.delete(id);
+        if (!deleted) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Fox not found");
+        }
+        // after delete, go back to list
+        return "redirect:/api/foxes";
+    }
 }
